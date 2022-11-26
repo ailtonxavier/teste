@@ -10,11 +10,13 @@ import Dominio.Cliente;
 public class ClienteDAO {
     private Conexao conexaoClienteDAO;
     private String relatorio = "select * from cliente";
-    private String inserir = "insert into cliente (pk_cpf,nome,login,senha) values (?,?,?,?)";
+    private String inserir = "insert into cliente (pk_cpf,nome,login,senha,ativo) values (?,?,?,?,?)";
     private String buscar = "select * from cliente where pk_cpf = ?";
+    private String alterar = "update cliente set pk_cpf = ?, nome = ?, login = ?, senha = ?, ativo = ? where cpf = ?";
+    private String deletar = "delete from cliente where cpf = ?";
 
     public ClienteDAO(){
-        conexaoClienteDAO = new Conexao("postgres", "123", "jdbc:postgresql://localhost:5432/BDSolo");
+        conexaoClienteDAO = new Conexao("jdbc:postgresql://localhost:5432/BDSolo", "postgres", "123");
     }
 
     public Cliente getCliente(String pk_cpf){
@@ -64,5 +66,31 @@ public class ClienteDAO {
             System.out.println("Erro no relatorio" + e.getMessage());
         }
         return lista;
+    }
+    public void setAlterar(Cliente pessoa){
+        try {
+            conexaoClienteDAO.conectar();
+            PreparedStatement instrucao = conexaoClienteDAO.getConexao().prepareStatement(alterar);
+            instrucao.setString(1, pessoa.getPk_cpf());
+            instrucao.setString(2, pessoa.getNome());
+            instrucao.setString(3, pessoa.getLogin());
+            instrucao.setString(4, pessoa.getSenha());
+            instrucao.setBoolean(5, pessoa.getAtivo());
+            instrucao.execute();
+            conexaoClienteDAO.desconectar();
+        } catch (Exception e){
+            System.out.println("Erro na alteração: " + e.getMessage());
+        }
+    }
+    public void excluir(String pk_cpf){
+        try {
+            conexaoClienteDAO.conectar();
+            PreparedStatement instrucao = conexaoClienteDAO.getConexao().prepareStatement(deletar);
+            instrucao.setString(1, pk_cpf);
+            instrucao.execute();
+            conexaoClienteDAO.desconectar();
+        } catch (Exception e){
+
+        }
     }
 }

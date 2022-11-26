@@ -9,16 +9,16 @@ public class Conexao {
     private String caminho;
     private Connection minhaConexao;
 
-    public Conexao(String usuario, String senha, String caminho){
+    public Conexao(String caminho, String usuario, String senha){
+        this.caminho = caminho;
         this.usuario = usuario;
         this.senha = senha;
-        this.caminho = caminho;
     }
 
     public void conectar(){
         try {
             Class.forName("org.postgresql.Driver"); // CARREGA O DRIVER
-            minhaConexao = DriverManager.getConnection(usuario, senha, caminho);
+            minhaConexao = DriverManager.getConnection(this.caminho, this.usuario, this.senha);
         } catch (Exception e){
             System.out.println("Erro na conexao" + e.getMessage());
         }
@@ -32,6 +32,6 @@ public class Conexao {
     }
 
     public Connection getConexao(){
-        return minhaConexao;
+        return this.minhaConexao;
     }
 }
