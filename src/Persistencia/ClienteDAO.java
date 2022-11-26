@@ -12,8 +12,8 @@ public class ClienteDAO {
     private String relatorio = "select * from cliente";
     private String inserir = "insert into cliente (pk_cpf,nome,login,senha,ativo) values (?,?,?,?,?)";
     private String buscar = "select * from cliente where pk_cpf = ?";
-    private String alterar = "update cliente set pk_cpf = ?, nome = ?, login = ?, senha = ?, ativo = ? where cpf = ?";
-    private String deletar = "delete from cliente where cpf = ?";
+    private String alterar = "update cliente set pk_cpf = ?, nome = ?, login = ?, senha = ?, ativo = ? where pk_cpf = ?";
+    private String deletar = "delete from cliente where pk_cpf = ?";
 
     public ClienteDAO(){
         conexaoClienteDAO = new Conexao("jdbc:postgresql://localhost:5432/BDSolo", "postgres", "123");
@@ -76,6 +76,7 @@ public class ClienteDAO {
             instrucao.setString(3, pessoa.getLogin());
             instrucao.setString(4, pessoa.getSenha());
             instrucao.setBoolean(5, pessoa.getAtivo());
+            instrucao.setString(6, pessoa.getPk_cpf());
             instrucao.execute();
             conexaoClienteDAO.desconectar();
         } catch (Exception e){

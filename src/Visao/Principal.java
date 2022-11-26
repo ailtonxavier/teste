@@ -26,6 +26,8 @@ public class Principal {
             System.out.println("1 - ####### MENU DE CLIENTES #######");
             System.out.println("2 - ############ BUSCAR ############");
             System.out.println("3 - ########## RELATÓRIO ###########");
+            System.out.println("4 - ########### ALTERAR ############");
+            System.out.println("5 - ########### EXCLUSAO ###########");
             op = teclado.nextInt();
             teclado.nextLine();
             switch (op){
@@ -86,7 +88,46 @@ public class Principal {
                         System.out.println("####################################\n");
                     }
                     break;
+                case 4:
+                    /*#######################################
+                    ############ ALTERAR CLIENTES ###########
+                    #######################################*/
+                    System.out.println("ALTERANDO CONTATO");
+                    System.out.println("DIGITE O CPF DO CLIENTE: ");
+                    cpfaux = teclado.nextLine();
+                    clienteVisao = clienteDAO.getCliente(cpfaux);
+                    if(clienteVisao != null){
+                        clienteVisao = new Cliente();
+                        clienteVisao.setPk_cpf(cpfaux);
+                        System.out.println("DIGITE O NOVO NOME: ");
+                        clienteVisao.setNome(teclado.nextLine());
+                        System.out.println("DIGITE O NOVO LOGIN: ");
+                        clienteVisao.setLogin(teclado.nextLine());
+                        System.out.println("DIGITE A NOVA SENHA: ");
+                        clienteVisao.setSenha(teclado.nextLine());
+                        clienteVisao.setAtivo(true);
+                        clienteDAO.setAlterar(clienteVisao);
+                        System.out.println("ALTERAÇÃO EFETUADA COM SUCESSO");
+                    } else {
+                        System.out.println("CONTATO NÃO CADASTRADO!");
+                    }
+                    break;
+                case 5:
+                    /*#######################################
+                    ############ EXCLUIR CLIENTES ###########
+                    #######################################*/
+                    System.out.println("EXCLUINDO CONTATO...");
+                    System.out.println("DIGITE O CPF DO CLIENTE: ");
+                    cpfaux = teclado.nextLine();
+                    clienteVisao = clienteDAO.getCliente(cpfaux);
+                    if(clienteVisao != null){
+                        clienteDAO.excluir(cpfaux);
+                        System.out.println("EXCLUSÃO REALIZADA COM SUCESSO");
+                    } else {
+                        System.out.println("CONTATO NÃO CADASTRADO");
+                    }
+                    break;
             }
-        } while(op != 4);
+        } while(op != 6);
     }
 }
