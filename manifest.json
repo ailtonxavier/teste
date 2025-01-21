@@ -1,10 +1,10 @@
 {
-    "name": "Nome do App",
-    "short_name": "Nome Curto",
-    "start_url": "/",
+    "name": "Meu PWA Básico",
+    "short_name": "PWA Básico",
+    "start_url": ".",
     "display": "standalone",
-    "background_color": "#fff",
-    "theme_color": "#f8f9fa",
+    "background_color": "#ffffff",
+    "theme_color": "#317EFB",
     "icons": [
       {
         "src": "icon.png",
